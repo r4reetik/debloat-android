@@ -1,7 +1,29 @@
 import eel
 import subprocess as sp
+import json
 
 eel.init("web")
+
+appsJSON = {}
+
+
+def fetchAll():
+    allAppsOutput = sp.getoutput("adb shell pm list packages -e")
+    splitedAllAppsOutput = allAppsOutput.replace("package:", '').split('\n')
+    appsJSON["all"] = sorted(splitedAllAppsOutput)
+
+
+def fetchUser():
+    userAppsOutput = sp.getoutput("adb shell pm list packages -3")
+    splitedUserAppsOutput = userAppsOutput.replace("package:", '').split('\n')
+    appsJSON["user"] = sorted(splitedUserAppsOutput)
+
+
+def fetchSystem():
+    systemAppsOutput = sp.getoutput("adb shell pm list packages -s")
+    splitedSystemAppsOutput = systemAppsOutput.replace(
+        "package:", '').split('\n')
+    appsJSON["system"] = sorted(splitedSystemAppsOutput)
 
 
 @eel.expose
@@ -33,7 +55,7 @@ def checkConnect():
     deviceIndex = -1
 
     for i in range(len(splitedConnectedOutput)):
-        if "WPD" in splitedConnectedOutput[i]:
+        if "WPD" in splitedConnectedOutput[i] or "Android" in splitedConnectedOutput[i]:
             deviceIndex = i
             break
 
@@ -46,6 +68,22 @@ def checkConnect():
     else:
         print("Device not Connected.")
         return 0
+
+
+@eel.expose
+def populateApps():
+    fetchAll()
+    fetchUser()
+    fetchSystem()
+
+    with open("./web/data/phoneApps.json", "w") as file:
+        json.dump(appsJSON, file)
+
+
+@eel.expose
+def uninstallApp(package):
+    sp.call("adb shell pm clear " + package, shell=True)
+    sp.call("adb shell pm uninstall --user 0 " + package, shell=True)
 
 
 eel.start("connect.html", mode="edge", size=(960, 640))
