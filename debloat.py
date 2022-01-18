@@ -105,4 +105,4 @@ def populateDeviceInfo():
     return [connectedDeviceName, connectedDeviceSerial]
 
 
-eel.start("connect.html", mode="edge", size=(960, 640))
+eel.start("connect.html", mode="edge")

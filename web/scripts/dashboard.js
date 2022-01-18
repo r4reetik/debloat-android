@@ -1,5 +1,4 @@
 selectedAppCategory = "all";
-selectedApps = [];
 searchString = "";
 
 const insertDeviceInfo = (details) => {
@@ -51,14 +50,19 @@ radioButtonsElement.forEach((element) => {
 
 document.getElementById("btnUninstall").addEventListener("click", () => {
     let checkboxAppsElement = document.querySelectorAll('input[name="appsSelected"]');
-    selectedApps = [];
+    let count = 0;
     checkboxAppsElement.forEach((element) => {
         if (element.checked) {
+            ++count;
             eel.uninstallApp(element.value);
         }
     });
 
-    swal("Good job!", "Selected apps successfully uninstalled.", "success");
+    if (count > 0) {
+        swal("Good job!", "Selected apps successfully uninstalled.", "success");
+    } else {
+        swal("Oops!", "No apps selected", "error");
+    }
 
     eel.populateApps()(insertInTable);
 });
@@ -69,13 +73,13 @@ document.getElementById("btnRefresh").addEventListener("click", () => {
 
 eel.populateApps()(insertInTable);
 
-// const adbAction = (result) => {
-//     if (!result) {
-//         clearInterval(checkADBDevice);
-//         window.location = "adb.html";
-//     }
-// };
+const adbAction = (result) => {
+    if (!result) {
+        clearInterval(checkADBDevice);
+        window.location = "adb.html";
+    }
+};
 
-// let checkADBDevice = setInterval(() => {
-//     eel.checkADB()(adbAction);
-// }, 1024);
+let checkADBDevice = setInterval(() => {
+    eel.checkADB()(adbAction);
+}, 1024);
