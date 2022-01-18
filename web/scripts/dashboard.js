@@ -14,7 +14,7 @@ const insertInTable = () => {
         .then((appsJSON) => {
             document.querySelector("body > div > div.row.my-3.px-3 > div > table > tbody").innerHTML = "";
             appsJSON[selectedAppCategory].forEach((package) => {
-                if (package.includes(searchString) || searchString === "") {
+                if (package.toLowerCase().includes(searchString.toLowerCase()) || searchString === "") {
                     document.querySelector("body > div > div.row.my-3.px-3 > div > table > tbody").insertAdjacentHTML(
                         "beforeend",
                         `<tr id="${package}">
