@@ -5,8 +5,6 @@ import json
 
 eel.init("web")
 
-connectedDeviceName = ""
-connectedDeviceSerial = ""
 appsJSON = {}
 
 
@@ -92,6 +90,19 @@ def uninstallApp(package):
     except:
         print("Java security exception of android.permission.CLEAR_APP_USER_DATA")
     sp.call("adb shell pm uninstall --user 0 " + package, shell=True)
+
+
+@eel.expose
+def populateDeviceInfo():
+    nameOutput = sp.getoutput(
+        'adb shell getprop | findstr "ro.product.vendor.model"'
+    )
+    connectedDeviceName = nameOutput[nameOutput.index(':') + 3: -1]
+    serialOutput = sp.getoutput(
+        'adb shell getprop | findstr "ro.boot.serialno"'
+    )
+    connectedDeviceSerial = serialOutput[serialOutput.index(':') + 3: -1]
+    return [connectedDeviceName, connectedDeviceSerial]
 
 
 eel.start("connect.html", mode="edge", size=(960, 640))
