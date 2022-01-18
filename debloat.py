@@ -1,9 +1,12 @@
+from warnings import catch_warnings
 import eel
 import subprocess as sp
 import json
 
 eel.init("web")
 
+connectedDeviceName = ""
+connectedDeviceSerial = ""
 appsJSON = {}
 
 
@@ -39,6 +42,7 @@ def checkADB():
         phoneInfo = splitedADBOutput[deviceIndex].split()
         if phoneInfo[1] != "unauthorized":
             print("ADB connected on", phoneInfo[0])
+            connectedDeviceSerial = phoneInfo[0]
             return 1
         else:
             print("Unauthorized to access ADB.")
@@ -64,6 +68,7 @@ def checkConnect():
         deviceInfo.pop()
         deviceName = ' '.join(deviceInfo)
         print("Connected Device:", deviceName)
+        connectedDeviceName = deviceName
         return 1
     else:
         print("Device not Connected.")
@@ -82,7 +87,10 @@ def populateApps():
 
 @eel.expose
 def uninstallApp(package):
-    sp.call("adb shell pm clear " + package, shell=True)
+    try:
+        sp.call("adb shell pm clear " + package, shell=True)
+    except:
+        print("Java security exception of android.permission.CLEAR_APP_USER_DATA")
     sp.call("adb shell pm uninstall --user 0 " + package, shell=True)
 
 

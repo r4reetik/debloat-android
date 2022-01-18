@@ -44,4 +44,8 @@ document.getElementById("btnUninstall").addEventListener("click", () => {
     eel.populateApps()(insertInTable);
 });
 
+document.getElementById("btnRefresh").addEventListener("click", () => {
+    eel.populateApps()(insertInTable);
+});
+
 eel.populateApps()(insertInTable);
