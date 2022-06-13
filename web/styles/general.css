@@ -1,4 +1,11 @@
+@import url("satoshi.css");
+
 .main-body {
-    width: 960px;
-    height: 640px;
+    width: 1024px;
+    height: 799px;
+
+    background: #ffffff;
+
+    font-family: "Satoshi-Variable";
+    font-weight: 500;
 }

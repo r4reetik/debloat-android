@@ -1,4 +1,3 @@
-from warnings import catch_warnings
 import eel
 import subprocess as sp
 import json
@@ -6,25 +5,61 @@ import json
 eel.init("web")
 
 appsJSON = {}
+storageDumps = {}
+
+
+def dumpStorage():
+    storageDumps["output"] = sp.getoutput("adb shell dumpsys diskstats")
 
 
 def fetchAll():
     allAppsOutput = sp.getoutput("adb shell pm list packages -e")
     splitedAllAppsOutput = allAppsOutput.replace("package:", '').split('\n')
-    appsJSON["all"] = sorted(splitedAllAppsOutput)
+    appData = {}
+    for package in splitedAllAppsOutput:
+        packagePathOutput = sp.getoutput(
+            "adb shell pm list packages -f " + package)
+        apkPath = packagePathOutput[8:packagePathOutput.find(".apk") + 4]
+        dumpData = sp.getoutput(
+            "adb shell aapt dump badging " + apkPath + " | findstr application-label:")
+        strPos = dumpData.find("'") + 1
+        dumpData = dumpData[strPos:-1]
+        appData[package] = dumpData if dumpData != "" else "OS Application"
+    appsJSON["all"] = appData
 
 
 def fetchUser():
     userAppsOutput = sp.getoutput("adb shell pm list packages -3")
     splitedUserAppsOutput = userAppsOutput.replace("package:", '').split('\n')
-    appsJSON["user"] = sorted(splitedUserAppsOutput)
+    appData = {}
+    for package in splitedUserAppsOutput:
+        packagePathOutput = sp.getoutput(
+            "adb shell pm list packages -f " + package)
+        apkPath = packagePathOutput[8:packagePathOutput.find(".apk") + 4]
+        dumpData = sp.getoutput(
+            "adb shell aapt dump badging " + apkPath + " | findstr application-label:")
+        strPos = dumpData.find("'") + 1
+        dumpData = dumpData[strPos:-1]
+        appData[package] = dumpData if dumpData != "" else "OS Application"
+    appsJSON["user"] = appData
 
 
 def fetchSystem():
     systemAppsOutput = sp.getoutput("adb shell pm list packages -s")
     splitedSystemAppsOutput = systemAppsOutput.replace(
-        "package:", '').split('\n')
-    appsJSON["system"] = sorted(splitedSystemAppsOutput)
+        "package:", ''
+    ).split('\n')
+    appData = {}
+    for package in splitedSystemAppsOutput:
+        packagePathOutput = sp.getoutput(
+            "adb shell pm list packages -f " + package)
+        apkPath = packagePathOutput[8:packagePathOutput.find(".apk") + 4]
+        dumpData = sp.getoutput(
+            "adb shell aapt dump badging " + apkPath + " | findstr application-label:")
+        strPos = dumpData.find("'") + 1
+        dumpData = dumpData[strPos:-1]
+        appData[package] = dumpData if dumpData != "" else "OS Application"
+    appsJSON["system"] = appData
 
 
 @eel.expose
@@ -75,10 +110,13 @@ def checkConnect():
 
 @eel.expose
 def populateApps():
+    # dumpStorage()
+    # with open("./web/data/storageDumps.json", "w") as file:
+    #     json.dump(storageDumps, file)
+
     fetchAll()
     fetchUser()
     fetchSystem()
-
     with open("./web/data/phoneApps.json", "w") as file:
         json.dump(appsJSON, file)
 

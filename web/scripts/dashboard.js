@@ -12,24 +12,33 @@ const insertInTable = () => {
     fetch("../data/phoneApps.json")
         .then((response) => response.json())
         .then((appsJSON) => {
-            document.querySelector("body > div > div.row.my-3.px-3 > div > table > tbody").innerHTML = "";
-            appsJSON[selectedAppCategory].forEach((package) => {
+            document.querySelector("body > div > div.row.body-div > div.table-responsive > table > tbody").innerHTML = "";
+            Object.keys(appsJSON[selectedAppCategory]).forEach((package) => {
                 if (package.toLowerCase().includes(searchString.toLowerCase()) || searchString === "") {
-                    document.querySelector("body > div > div.row.my-3.px-3 > div > table > tbody").insertAdjacentHTML(
-                        "beforeend",
-                        `<tr id="${package}">
+                    document
+                        .querySelector("body > div > div.row.body-div > div.table-responsive > table > tbody")
+                        .insertAdjacentHTML(
+                            "beforeend",
+                            `<tr id="${package}">
                             <th scope="row">
                                 <input
-                                    class="form-check-input big-checkbox"
+                                    class="form-check-input-secondary big-checkbox"
                                     type="checkbox"
                                     name="appsSelected"
                                     value="${package}"
                                 />
                             </th>
-                            <td>---x---</td>
+                            <td>${appsJSON[selectedAppCategory][package]}</td>
                             <td>${package}</td>
+                            <td>MB</td>
+                            <td>NONE</td>
+                            <td style="text-align: center;">
+
+                                    <img src="./assets/Delete.svg">
+
+                            </td>
                         </tr>`
-                    );
+                        );
                 }
             });
         });

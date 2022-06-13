@@ -1,11 +1,87 @@
 thead {
-    background: white;
-    position: sticky;
-    top: 0;
+    color: #697386;
+    font-size: 14px;
+    vertical-align: middle;
 }
 
 td {
     vertical-align: middle;
+    color: #2b3340;
+}
+
+.fix-autospace {
+    margin: 0;
+    padding: 0;
+}
+
+.header-div {
+    height: 206px;
+    padding: 32px 48px 20px 48px;
+    border-bottom: solid 8px #f2f4f7;
+}
+
+#displayDevice {
+    padding: 0;
+    font-family: "Satoshi-Bold";
+    color: #2b3340;
+    font-weight: 700;
+    font-size: 28px;
+    margin-bottom: 4px;
+}
+
+.serial-col {
+    padding: 0;
+    color: #697386;
+    font-size: 16px;
+}
+
+#displaySerial {
+    color: #2b3340;
+}
+
+.search-col {
+    margin-top: 15px;
+}
+
+#inputSearch {
+    font-size: 14px;
+    border-radius: 8px;
+    color: #8c93a1;
+    width: 300px;
+    height: 40px;
+    padding-left: 40px;
+    background: url("../assets/Search.svg") no-repeat scroll 10px 8px;
+}
+
+#btnRefresh {
+    border-radius: 8px;
+    width: 90px;
+    height: 40px;
+    font-size: 14px;
+    margin-right: 16px;
+}
+
+#btnUninstall {
+    border-radius: 8px;
+    width: 90px;
+    height: 40px;
+    font-size: 14px;
+}
+
+.body-div {
+    padding: 20px 48px 20px 48px;
+    border-bottom: solid 2px #e3e8ee;
+}
+
+.results-show {
+    padding: 0;
+    font-size: 12px;
+    color: #697386;
+    margin-bottom: 16px;
+}
+
+.table-responsive {
+    padding: 0;
 }
 
 .table-container {
@@ -14,8 +90,9 @@ td {
 }
 
 .big-checkbox {
-    width: 26px;
-    height: 26px;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
 }
 
 /* Width */
