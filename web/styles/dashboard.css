@@ -4,6 +4,14 @@ thead {
     vertical-align: middle;
 }
 
+thead > tr {
+    border-top: 1px solid #e3e8ee;
+}
+
+tr {
+    height: 43px;
+}
+
 td {
     vertical-align: middle;
     color: #2b3340;
@@ -87,6 +95,21 @@ td {
 .table-container {
     height: 490px;
     overflow-x: hidden;
+}
+
+.pagination-div {
+    padding: 16px 48px;
+}
+
+.pagination-btn {
+    height: 36px;
+    margin-left: 4px;
+    border-radius: 6px;
+    color: #2b3340;
+}
+
+.hover-bg:hover {
+    background-color: #2b3340;
 }
 
 .big-checkbox {

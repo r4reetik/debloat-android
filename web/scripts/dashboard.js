@@ -13,6 +13,7 @@ const insertInTable = () => {
         .then((response) => response.json())
         .then((appsJSON) => {
             document.querySelector("body > div > div.row.body-div > div.table-responsive > table > tbody").innerHTML = "";
+
             Object.keys(appsJSON[selectedAppCategory]).forEach((package) => {
                 if (package.toLowerCase().includes(searchString.toLowerCase()) || searchString === "") {
                     document
@@ -28,14 +29,12 @@ const insertInTable = () => {
                                     value="${package}"
                                 />
                             </th>
-                            <td>${appsJSON[selectedAppCategory][package]}</td>
+                            <td>${appsJSON[selectedAppCategory][package]["name"]}</td>
                             <td>${package}</td>
-                            <td>MB</td>
-                            <td>NONE</td>
+                            <td>${appsJSON[selectedAppCategory][package]["size"]} MB</td>
+                            <td>${appsJSON[selectedAppCategory][package]["perms"]}</td>
                             <td style="text-align: center;">
-
                                     <img src="./assets/Delete.svg">
-
                             </td>
                         </tr>`
                         );
