@@ -1,0 +1,116 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Project Structure and Best Practices
+
+## Directory Structure
+- All source code should be organized under the `src` directory
+- Only `main.py` should be present in the root directory
+- Configuration files (like `.env.example`) should be in the root directory
+- Documentation files (like `README.md`) should be in the root directory
+
+## Code Organization
+- Python source files should be organized into logical modules under `src/`
+- Each module should have its own `__init__.py` file
+- Test files should be in a `tests` directory at the root level
+- Utility functions should be in a `utils` module
+- Core business logic should be in appropriate feature modules
+
+## Environment Variables
+- Use `.env.example` as a template for required environment variables
+- Never commit actual `.env` file with real values
+- Always read environment variables from `.env` file in the code
+- Document all required environment variables in `.env.example`
+
+# Code Style & Standards
+
+## Python Code Standards
+This project follows modern Python best practices for clean, maintainable code.
+
+## Formatting & Linting
+- Use `ruff` for linting and formatting (faster than black + flake8)
+- Use `mypy` for type checking
+- Add these as dev dependencies: `uv add --dev ruff mypy`
+
+## Type Hints
+- **ALWAYS** use type hints for function parameters and return values
+- Import types from `typing` module when needed
+- Example:
+```python
+from typing import List, Dict, Optional
+
+def process_errors(error_data: List[Dict[str, str]]) -> Optional[str]:
+    pass
+```
+
+## Function and Variable Naming
+- Use `snake_case` for variables and functions
+- Use `PascalCase` for classes
+- Use `UPPER_CASE` for constants
+- Be descriptive with names (no single letter variables except in loops)
+
+## Error Handling
+- Use specific exception types
+- Always log errors appropriately
+- Don't use bare `except:` clauses
+
+## Documentation in code
+- Use docstrings for all functions and classes
+- Follow Google docstring format
+- Example:
+```python
+def fetch_incident_data(start_date: str, end_date: str) -> List[Dict]:
+    """Fetch incident data within a date range.
+    
+    Args:
+        start_date: ISO format date string (YYYY-MM-DD)
+        end_date: ISO format date string (YYYY-MM-DD)
+        
+    Returns:
+        List of incident dictionaries from the API
+        
+    Raises:
+        ValueError: If date format is invalid
+        APIError: If API request fails
+    """
+    pass
+```
+
+## Import Organization
+```python
+# Standard library imports
+import os
+import json
+from datetime import datetime
+
+# Third-party imports
+import requests
+import pandas as pd
+
+# Local imports
+from .utils import format_date
+from .config import API_CONFIG
+```
+
+## Documentation
+- Keep README.md up to date with any structural changes
+- Document setup instructions in README.md
+- Include information about environment variables in README.md
+- Document any new dependencies or requirements
+
+## Version Control
+- Use meaningful commit messages
+- Keep commits focused and atomic
+- Don't commit sensitive information or environment files
+
+## Python Version
+- Project uses Python 3
+- Specify exact Python version in `.python-version` file
+- Use virtual environment for development
+
+## Dependencies
+- Use `pyproject.toml` for dependency management
+- Keep dependencies up to date
+- Document all dependencies in README.md

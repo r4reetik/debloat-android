@@ -1,0 +1,81 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# UV Dependency Management
+
+## UV Package Manager Usage
+This project exclusively uses `uv` for Python package management. It's faster and more reliable than pip.
+
+## Key Commands
+
+### Environment Management
+```bash
+# Sync dependencies from pyproject.toml
+uv sync
+
+# Create/activate virtual environment
+uv venv
+source .venv/bin/activate  # On macOS/Linux
+
+# Run commands in the environment
+uv run python main.py
+uv run pytest
+```
+
+### Adding Dependencies
+```bash
+# Add production dependency
+uv add requests
+uv add pandas
+uv add pydantic
+
+# Add development dependency
+uv add --dev pytest
+uv add --dev ruff
+uv add --dev mypy
+```
+
+### Removing Dependencies
+```bash
+# Remove dependency
+uv remove requests
+
+# Remove dev dependency
+uv remove --dev pytest
+```
+
+## Project Configuration in [pyproject.toml](mdc:pyproject.toml)
+
+### Dependencies Structure
+```toml
+[project]
+dependencies = [
+    "requests>=2.31.0",
+    "pandas>=2.0.0",
+    "pydantic>=2.0.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=7.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.5.0",
+]
+```
+
+## Important Rules
+1. **NEVER** use `pip install` directly
+2. **NEVER** create `requirements.txt` files
+3. **ALWAYS** use `uv add` to add dependencies
+4. Dependencies automatically get added to [pyproject.toml](mdc:pyproject.toml)
+5. Use `uv sync` to install dependencies on new machines
+6. Commit `uv.lock` file to version control for reproducible builds
+
+## Benefits of UV
+- Much faster than pip
+- Better dependency resolution
+- Automatic virtual environment management
+- Lock file for reproducible installations
+- Built-in support for development dependencies
